@@ -1,51 +1,52 @@
 import React from 'react';
-import { useFormik } from 'formik';
+import { Formik } from 'formik';
 import * as Yup from 'yup';
 
 const SignupForm = () => {
-  const formik = useFormik({
-    initialValues: {
-      firstName: '',
-      lastName: '',
-      email: '',
-    },
-    validationSchema: Yup.object({
-      firstName: Yup.string()
-        .max(15, 'Must be 15 characters or less')
-        .required('Required'),
-      lastName: Yup.string()
-        .max(20, 'Must be 20 characters or less')
-        .required('Required'),
-      email: Yup.string()
-        .email('Invalid email address')
-        .required('Required'),
-    }),
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
   return (
-    <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="firstName">First Name</label>
-      <input name="firstName" {...formik.getFieldProps('firstName')} />
-      {formik.touched.firstName && formik.errors.firstName ? (
-        <div>{formik.errors.firstName}</div>
-      ) : null}
-      <label htmlFor="lastName">Last Name</label>
-      <input name="lastName" {...formik.getFieldProps('lastName')} />
-      {formik.touched.lastName && formik.errors.lastName ? (
-        <div>{formik.errors.lastName}</div>
-      ) : null}
-      <label htmlFor="email">Email Address</label>
-      <input name="email" {...formik.getFieldProps('email')} />
-      {formik.touched.email && formik.errors.email ? (
-        <div>{formik.errors.email}</div>
-      ) : null}
-      <button type="submit">Submit</button>
-    </form>
+    <Formik
+      initialValues={{ firstName: '', lastName: '', email: '' }}
+      validationSchema={Yup.object({
+        firstName: Yup.string()
+          .max(15, 'Must be 15 characters or less')
+          .required('Required'),
+        lastName: Yup.string()
+          .max(20, 'Must be 20 characters or less')
+          .required('Required'),
+        email: Yup.string()
+          .email('Invalid email address')
+          .required('Required'),
+      })}
+      onSubmit={(values, { setSubmitting }) => {
+        setTimeout(() => {
+          alert(JSON.stringify(values, null, 2));
+          setSubmitting(false);
+        }, 400);
+      }}
+    >
+      {formik => (
+        <form onSubmit={formik.handleSubmit}>
+          <label htmlFor="firstName">First Name</label>
+          <input id="firstName" {...formik.getFieldProps('firstName')} />
+          {formik.touched.firstName && formik.errors.firstName ? (
+            <div>{formik.errors.firstName}</div>
+          ) : null}
+          <label htmlFor="lastName">Last Name</label>
+          <input id="lastName" {...formik.getFieldProps('lastName')} />
+          {formik.touched.lastName && formik.errors.lastName ? (
+            <div>{formik.errors.lastName}</div>
+          ) : null}
+          <label htmlFor="email">Email Address</label>
+          <input id="email" {...formik.getFieldProps('email')} />
+          {formik.touched.email && formik.errors.email ? (
+            <div>{formik.errors.email}</div>
+          ) : null}
+          <button type="submit">Submit</button>
+        </form>
+      )}
+    </Formik>
   );
 };
-
 
   //have access to handleSubmit, handleChange, and values via formik object
 
@@ -60,3 +61,5 @@ const SignupForm = () => {
 //Formik recommends Yup over PropTypes for validation 
 
 //to save you time, useFormik() returns a helper method called formik.getFieldProps() to make it faster to wire up inputs. Given some field-level info, it returns to you the exact group of onChange, onBlur, value, checked for a given field. You can then spread that on an input, select, or textarea.
+
+//To save you even more time, Formik comes with React Context-powered API/component make life easier and less verbose: <Formik />, <Form />, <Field />, and <ErrorMessage />. More explicitly, they use React Context implicitly to connect to the parent <Formik /> state/methods. --> context API is built into Formik
