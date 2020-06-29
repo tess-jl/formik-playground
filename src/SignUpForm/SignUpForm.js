@@ -36,11 +36,6 @@ const SignupForm = () => {
       alert(JSON.stringify(values, null, 2));
     },
   });
-
-    //have access to handleSubmit, handleChange, and values via formik object
-
-  //use the same exact handleChange for each HTML input
-  //pass id and name for input that matches initialValues above 
   return (
     <form onSubmit={formik.handleSubmit}>
       <label htmlFor="firstName">First Name</label>
@@ -52,7 +47,9 @@ const SignupForm = () => {
         onBlur={formik.handleBlur}
         value={formik.values.firstName}
       />
-      {formik.errors.firstName ? <div>{formik.errors.firstName}</div> : null}
+      {formik.touched.firstName && formik.errors.firstName ? (
+        <div>{formik.errors.firstName}</div>
+      ) : null}
       <label htmlFor="lastName">Last Name</label>
       <input
         id="lastName"
@@ -62,7 +59,9 @@ const SignupForm = () => {
         onBlur={formik.handleBlur}
         value={formik.values.lastName}
       />
-      {formik.errors.lastName ? <div>{formik.errors.lastName}</div> : null}
+      {formik.touched.lastName && formik.errors.lastName ? (
+        <div>{formik.errors.lastName}</div>
+      ) : null}
       <label htmlFor="email">Email Address</label>
       <input
         id="email"
@@ -72,11 +71,21 @@ const SignupForm = () => {
         onBlur={formik.handleBlur}
         value={formik.values.email}
       />
-      {formik.errors.email ? <div>{formik.errors.email}</div> : null}
+      {formik.touched.email && formik.errors.email ? (
+        <div>{formik.errors.email}</div>
+      ) : null}
       <button type="submit">Submit</button>
     </form>
   );
 };
+
+
+
+  //have access to handleSubmit, handleChange, and values via formik object
+
+  //use the same exact handleChange for each HTML input
+  //pass id and name for input that matches initialValues above 
+
 
 // Like errors and values, Formik can keep track of which fields have been visited. It stores this information in an object called touched that also mirrors the shape of values/initialValues, but each key can only be a boolean true/false.
 
