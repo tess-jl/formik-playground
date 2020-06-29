@@ -63,3 +63,5 @@ const SignupForm = () => {
 //to save you time, useFormik() returns a helper method called formik.getFieldProps() to make it faster to wire up inputs. Given some field-level info, it returns to you the exact group of onChange, onBlur, value, checked for a given field. You can then spread that on an input, select, or textarea.
 
 //To save you even more time, Formik comes with React Context-powered API/component make life easier and less verbose: <Formik />, <Form />, <Field />, and <ErrorMessage />. More explicitly, they use React Context implicitly to connect to the parent <Formik /> state/methods. --> context API is built into Formik
+
+//The <Field> component by default will render an <input> component that given a name prop will implicitly grab the respective onChange, onBlur, value props and pass them to the element as well as any props you pass to it. However, since not everything is an input, <Field> also accepts a few other props to let you render whatever you want. Some examples..
