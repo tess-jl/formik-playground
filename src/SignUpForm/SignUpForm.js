@@ -1,28 +1,6 @@
 import React from 'react';
 import { useFormik } from 'formik';
-
-const validate = values => {
-  const errors = {};
-  if (!values.firstName) {
-    errors.firstName = 'Required';
-  } else if (values.firstName.length > 15) {
-    errors.firstName = 'Must be 15 characters or less';
-  }
-
-  if (!values.lastName) {
-    errors.lastName = 'Required';
-  } else if (values.lastName.length > 20) {
-    errors.lastName = 'Must be 20 characters or less';
-  }
-
-  if (!values.email) {
-    errors.email = 'Required';
-  } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-    errors.email = 'Invalid email address';
-  }
-
-  return errors;
-};
+import * as Yup from 'yup';
 
 const SignupForm = () => {
   const formik = useFormik({
@@ -31,7 +9,17 @@ const SignupForm = () => {
       lastName: '',
       email: '',
     },
-    validate,
+    validationSchema: Yup.object({
+      firstName: Yup.string()
+        .max(15, 'Must be 15 characters or less')
+        .required('Required'),
+      lastName: Yup.string()
+        .max(20, 'Must be 20 characters or less')
+        .required('Required'),
+      email: Yup.string()
+        .email('Invalid email address')
+        .required('Required'),
+    }),
     onSubmit: values => {
       alert(JSON.stringify(values, null, 2));
     },
@@ -90,3 +78,5 @@ const SignupForm = () => {
 // Like errors and values, Formik can keep track of which fields have been visited. It stores this information in an object called touched that also mirrors the shape of values/initialValues, but each key can only be a boolean true/false.
 
 // To take advantage of touched, we can pass formik.handleBlur to each input's onBlur prop. This function works similarly to formik.handleChange in that it uses the name attribute to figure out which field to update.
+
+//Formik recommends Yup over PropTypes for validation 
