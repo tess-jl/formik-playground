@@ -27,38 +27,17 @@ const SignupForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <label htmlFor="firstName">First Name</label>
-      <input
-        id="firstName"
-        name="firstName"
-        type="text"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.firstName}
-      />
+      <input name="firstName" {...formik.getFieldProps('firstName')} />
       {formik.touched.firstName && formik.errors.firstName ? (
         <div>{formik.errors.firstName}</div>
       ) : null}
       <label htmlFor="lastName">Last Name</label>
-      <input
-        id="lastName"
-        name="lastName"
-        type="text"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.lastName}
-      />
+      <input name="lastName" {...formik.getFieldProps('lastName')} />
       {formik.touched.lastName && formik.errors.lastName ? (
         <div>{formik.errors.lastName}</div>
       ) : null}
       <label htmlFor="email">Email Address</label>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        onChange={formik.handleChange}
-        onBlur={formik.handleBlur}
-        value={formik.values.email}
-      />
+      <input name="email" {...formik.getFieldProps('email')} />
       {formik.touched.email && formik.errors.email ? (
         <div>{formik.errors.email}</div>
       ) : null}
@@ -66,7 +45,6 @@ const SignupForm = () => {
     </form>
   );
 };
-
 
 
   //have access to handleSubmit, handleChange, and values via formik object
@@ -80,3 +58,5 @@ const SignupForm = () => {
 // To take advantage of touched, we can pass formik.handleBlur to each input's onBlur prop. This function works similarly to formik.handleChange in that it uses the name attribute to figure out which field to update.
 
 //Formik recommends Yup over PropTypes for validation 
+
+//to save you time, useFormik() returns a helper method called formik.getFieldProps() to make it faster to wire up inputs. Given some field-level info, it returns to you the exact group of onChange, onBlur, value, checked for a given field. You can then spread that on an input, select, or textarea.
